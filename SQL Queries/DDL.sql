@@ -30,6 +30,7 @@ CREATE TABLE Trip (
     trip_id int,
     train_id int,
     driver_id int,
+    trip_cost numeric(10,2),
     trip_start_timestamp timestamp,
     trip_finish_timestamp timestamp,
     created_at timestamp not null,
@@ -39,11 +40,11 @@ CREATE TABLE Trip (
     FOREIGN KEY(driver_id) REFERENCES Driver(driver_id)
 );
 
-
 CREATE TABLE TripTrainStation (
     trip_id int,
     ts_id int,
     ts_sequence int,
+    ts_type varchar(20),
     trip_enter_timestamp timestamp,
     trip_exit_timestamp timestamp,
     created_at timestamp not null,
@@ -114,6 +115,7 @@ CREATE TABLE SubmittedPassenger (
     sp_born_city varchar(20),
     sp_born_date date,
     sp_balance int,
+    sp_registeration_timestamp timestamp,
     created_at timestamp not null,
     updated_at timestamp not null DEFAULT now() on update now(),
     PRIMARY KEY(sp_id)
@@ -165,6 +167,7 @@ CREATE TABLE Compnay (
     company_id int,
     company_name varchar(20),
 	company_registeration_number int,
+	company_income numeric(10, 2),
     created_at timestamp not null,
     updated_at timestamp not null DEFAULT now() on update now(),
     PRIMARY KEY(company_id)
@@ -203,6 +206,7 @@ CREATE TABLE Employee (
     employee_id int,
     employee_first_name varchar(20),
     employee_last_name varchar(20),
+    employee_personnel_id int,
     company_id varchar(20),
     created_at timestamp not null,
     updated_at timestamp not null DEFAULT now() on update now(),
@@ -221,11 +225,12 @@ CREATE TABLE AgentTelephones (
 );
 
 CREATE TABLE CompanyAgent (
+    companu_agent_id int,
     company_id int,
     agent_id int,
     created_at timestamp not null,
     updated_at timestamp not null DEFAULT now() on update now(),
-	PRIMARY KEY(company_id, agent_id),
+	PRIMARY KEY(companu_agent_id),
     FOREIGN KEY(agent_id) REFERENCES Agent(agent_id),
     FOREIGN KEY(company_id) REFERENCES Compnay(company_id)
 );
@@ -238,6 +243,16 @@ CREATE TABLE Supporter (
     created_at timestamp not null,
     updated_at timestamp not null DEFAULT now() on update now(),
     PRIMARY KEY(supporter_id)
+);
+
+CREATE TABLE SupporterTrip (
+    supporter_id int,
+    trip_id int,
+    created_at timestamp not null,
+    updated_at timestamp not null DEFAULT now() on update now(),
+    PRIMARY KEY(supporter_id, train_id),
+    FOREIGN KEY(supporter_id) REFERENCES Supporter(supporter_id),
+    FOREIGN KEY(trip_id) REFERENCES Trip(trip_id)
 );
 
 CREATE TABLE SupporterStatusLog (
@@ -313,3 +328,11 @@ CREATE TABLE SupportDriver (
     FOREIGN KEY(driver_id) REFERENCES Driver(driver_id),
     FOREIGN KEY(supporter_id) REFERENCES Supporter(supporter_id)
 );
+
+CREATE TABLE DriverResignLog (
+    driver_id int,
+    driver_first_name varchar(20),
+    driver_last_name varchar(20),
+    resign_timestamp timestamp not null,
+);
+
