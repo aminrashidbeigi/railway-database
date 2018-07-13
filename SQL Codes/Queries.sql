@@ -82,7 +82,7 @@ FROM (
     FROM SubmittedBalanceBook
 ) as SecondPassenger
 NATURAL JOIN Trip NATURAL JOIN TripTrainStation NATURAL JOIN TrainStation
-WHERE TrainStation.ts_name = 'Tehran' and DAYOFWEEK(Trip.trip_start_timestamp) = 3;
+WHERE TrainStation.ts_city = 'Tehran' and DAYOFWEEK(Trip.trip_start_timestamp) = 3 and FirstPassenger.sp_id <> SecondPassenger.sp_id;
 
 --11
 SELECT TIMESTAMPDIFF(MONTH, '2012-05-05', CURDATE()) * Company.company_income

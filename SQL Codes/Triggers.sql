@@ -16,7 +16,6 @@ BEGIN
     SET driver_balance = driver_balance + NEW.trip_cost * 0.1;
 END$$
 
-
 DELIMITER $$
 CREATE TRIGGER IF NOT EXISTS passenger_trigger_ins_log
 AFTER INSERT ON SubmittedPassenger
@@ -48,8 +47,8 @@ AFTER UPDATE ON Supporter
 FOR EACH ROW
 BEGIN
     INSERT INTO SupporterExecutionLog VALUES(NEW.supporter_id, 'UPDATE', NOW());
+    INSERT INTO SupporterStatusLog VALUES(NEW.supporter_id, NEW.supporter_status, NOW());
 END$$
-
 
 DELIMITER $$
 CREATE TRIGGER IF NOT EXISTS deleted_passenger_trigger

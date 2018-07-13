@@ -283,13 +283,9 @@ CREATE TABLE IF NOT EXISTS SupporterTrip (
 );
 
 CREATE TABLE IF NOT EXISTS SupporterStatusLog (
-    supporter_status_log_id int,
     supporter_id int,
     supporter_status boolean,
-    supporter_status_timestamp timestamp,
-    created_at timestamp not null,
-    updated_at timestamp not null DEFAULT now() on update now(),
-    PRIMARY KEY(supporter_status_log_id)
+    supporter_status_timestamp timestamp
 );
 
 CREATE TABLE IF NOT EXISTS SupporterAgent (
